@@ -1,6 +1,7 @@
 ﻿using System;
 using VendingMachine.Machine;
 using VendingMachine.Core.ENUM;
+
 namespace VendingMachine
 {
     class Program
