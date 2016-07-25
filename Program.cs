@@ -1,14 +1,19 @@
 ﻿using System;
 using VendingMachine.Machine;
 using VendingMachine.Core.ENUM;
-
+using VendingMachine.Core;
+using System.Data.SQLite;
 namespace VendingMachine
 {
     class Program
     {
         static void Main(string[] args)
         {
+            DatabaseConnection.InitializeDatabase(); // TODO: MOVE TO DATABASE
             Machine.Machine.InitializeVendingMachine();
+
+            Console.WriteLine("listing ");
+            DatabaseConnection.ListProductsFromDatabase();
 
             bool mainLoop = true;
             while (mainLoop)

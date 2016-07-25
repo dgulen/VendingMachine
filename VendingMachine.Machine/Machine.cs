@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using VendingMachine.Core.ENUM;
+using System.Data.SQLite;
 
 namespace VendingMachine.Machine
 {

@@ -1,5 +1,12 @@
 VendingMachine.Admin/obj/Debug/
 VendingMachine.Core/obj/Debug/
-VendingMachine.Machine/obj/Debug/
 obj/Debug/
 bin/Debug/
+System.Data.SQLite.xml
+VendingMachine.Admin/bin/Debug/FileHelpers.xml
+VendingMachine.Core/bin/Debug/
+VendingMachine.Machine/bin/Debug/
+VendingMachine.Machine/obj/Debug/
+VendingMachine.User/bin/Debug/
+VendingMachine.User/obj/Debug/
+packages/
