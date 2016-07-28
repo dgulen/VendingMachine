@@ -12,13 +12,28 @@ namespace VendingMachine.Core.DBConnection
             VendingMachineProduct[] productArray = new VendingMachineProduct[40];
             productArray = ReadProductSourceFile(fileName);
 
-            if (File.Exists("VendingMachineDB.sqlite")) // TODO : change to filename
+            if (!File.Exists("VendingMachineDB.sqlite")) // TODO : change to filename
             {
-                File.Delete("VendingMachineDB.sqlite");
+                SQLiteConnection.CreateFile("VendingMachineDB.sqlite");
+            }
+            else
+            {
+                SQLiteConnection temp_dbConnection;
+                temp_dbConnection = new SQLiteConnection("Data Source=VendingMachineDB.sqlite;Version=3;");
+
+                temp_dbConnection.Open();
+                string temp_sql = "DROP TABLE IF EXISTS products";
+                SQLiteCommand temp_command = new SQLiteCommand(temp_sql, temp_dbConnection);
+                temp_command.ExecuteNonQuery();
+
+                temp_sql = "DROP TABLE IF EXISTS money";
+                temp_command = new SQLiteCommand(temp_sql, temp_dbConnection);
+                temp_command.ExecuteNonQuery();
+
+                temp_dbConnection.Close();
                 Console.WriteLine("Databases cleared. ");
             }
 
-            SQLiteConnection.CreateFile("VendingMachineDB.sqlite");
             SQLiteConnection m_dbConnection;
             m_dbConnection = new SQLiteConnection("Data Source=VendingMachineDB.sqlite;Version=3;");
 
