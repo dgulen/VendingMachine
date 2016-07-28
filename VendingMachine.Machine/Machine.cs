@@ -35,9 +35,11 @@ namespace VendingMachine.Machine
 
         public static void InitializeVendingMachine()
         {
-            RetriewData.GetData(VendingMachineFile, ref rowSize, ref columnSize);
+            rowSize = 40; // TODO get as ENUM vs 
+            columnSize = 4;
             VendingMachineProducts = new string[rowSize, columnSize];
-            VendingMachineProducts = RetriewData.GetData(VendingMachineFile, ref rowSize, ref columnSize);
+            VendingMachineProducts = Core.DBConnection.VendingMachineProductsDB.GetDataFromProductsDB(ref rowSize, ref columnSize);
+            //VendingMachineProducts = Core.DatabaseConnection.GetDataFromDB(ref rowSize, ref columnSize);
             if (VendingMachineProducts[0, 0] == Convert.ToString(ErrorOutput.UNSUCCESSFUL))
             {
                 Console.WriteLine("Error in openning Vending Machine Products file.");
@@ -57,14 +59,17 @@ namespace VendingMachine.Machine
 
             InitializeVendingMachineProductPrice();
             InitializeVendingMachineProductStock();
-            InitializeVendingMachineMoneyStock(VendingMachineMoneyFile);
+            InitializeVendingMachineMoneyStock(VendingMachineMoneyFile); // TODO : DEGISTIR
         }
 
+        
         public static bool UpdateVendingMachine(string ProductFile)
         {
             if (ProductHolder.AddFromFileToVendingMachine(ProductFile))
             {
-                InitializeVendingMachineProductStock();
+                Core.DBConnection.VendingMachineProductsDB.UpdateProductDatabase(VendingMachineProducts);
+                //Core.DatabaseConnection.UpdateProductDatabase(VendingMachineProducts);
+                InitializeVendingMachine();
                 return true;
             }
             else
@@ -81,6 +86,8 @@ namespace VendingMachine.Machine
             }
             else
             {
+                Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(VendingMachineMoneyStock);
+               // Core.DatabaseConnection.UpdateMoneyDatabase(VendingMachineMoneyStock);
                 return true;
             }
         }
@@ -105,9 +112,12 @@ namespace VendingMachine.Machine
 
         public static void InitializeVendingMachineMoneyStock(string MoneyFile)
         {
-            RetriewData.GetData(MoneyFile, ref moneyTypeCount, ref moneyTableColumnCount);
-            VendingMachineMoneyStock = new string[moneyTypeCount, columnSize];
-            VendingMachineMoneyStock = RetriewData.GetData(MoneyFile, ref moneyTypeCount, ref moneyTableColumnCount);
+            VendingMachineMoneyStock = new string[6, 2]; // SAYILARI DEGISTIR
+            moneyTypeCount = 6;
+            moneyTableColumnCount = 2;
+            VendingMachineMoneyStock = Core.DBConnection.VendingMachineMoneyDB.GetDataFromMoneyDB();
+            // YENI DEGISTI
+           // VendingMachineMoneyStock = RetriewData.GetData(MoneyFile, ref moneyTypeCount, ref moneyTableColumnCount);
             if(VendingMachineMoneyStock[0,0] == Convert.ToString(ErrorOutput.UNSUCCESSFUL))
             {
                 Console.WriteLine("Error in openning money stock file.");

@@ -3,17 +3,23 @@ using VendingMachine.Machine;
 using VendingMachine.Core.ENUM;
 using VendingMachine.Core;
 using System.Data.SQLite;
+using System.IO;
+
 namespace VendingMachine
 {
     class Program
     {
         static void Main(string[] args)
         {
-            DatabaseConnection.InitializeDatabase(); // TODO: MOVE TO DATABASE
-            Machine.Machine.InitializeVendingMachine();
+            if (!File.Exists("VendingMachineDB.sqlite")) // TODO : change to filename
+            {
+                Core.DBConnection.VendingMachineProductsDB.InitializeProductDatabase("testtest.txt");
+                Core.DBConnection.VendingMachineMoneyDB.InitializeMoneyDatabase();
+                //DatabaseConnection.InitializeDatabase("testtest.txt"); // TODO: MOVE TO DATABASE
+                Console.WriteLine("Databases initialized. ");
+            }
 
-            Console.WriteLine("listing ");
-            DatabaseConnection.ListProductsFromDatabase();
+            Machine.Machine.InitializeVendingMachine(); // TODO remove this
 
             bool mainLoop = true;
             while (mainLoop)

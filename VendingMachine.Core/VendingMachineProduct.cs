@@ -16,5 +16,12 @@ namespace VendingMachine.Core
         public string SlotNo;
     }
 
-    
+    [DelimitedRecord(";")]
+    public class VendingMachineMoney
+    {
+        public string MoneyType;
+        public string Count;
+    }
+
+
 }

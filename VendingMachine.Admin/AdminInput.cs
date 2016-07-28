@@ -11,7 +11,7 @@ namespace VendingMachine.Admin
             {
                 return false;
             }
-            else if (choice == (int)Core.ENUM.AdminOptions.UPLOAD_PRODUCTS || choice == (int)Core.ENUM.AdminOptions.UPLOAD_MONEY || choice == (int)Core.ENUM.AdminOptions.REPORT_MODULE)
+            else if (choice == (int)Core.ENUM.AdminOptions.UPLOAD_PRODUCTS || choice == (int)Core.ENUM.AdminOptions.UPLOAD_MONEY || choice == (int)Core.ENUM.AdminOptions.REPORT_MODULE || choice == (int)Core.ENUM.AdminOptions.RESET)
             {
                 return true;
             }

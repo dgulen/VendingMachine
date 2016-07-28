@@ -50,7 +50,9 @@ namespace VendingMachine.User
                     {
                         case (int)Core.ENUM.UserOptions.LIST_ITEMS:
                             Console.WriteLine("Item List...\n");
-                            Machine.ProductHolder.ListVendingMachineProducts();
+                            //Machine.ProductHolder.ListVendingMachineProducts();
+                            Core.DBConnection.VendingMachineProductsDB.ListProductsFromDatabase();
+                            //DatabaseConnection.ListProductsFromDatabase();
                             break;
 
                         case (int)Core.ENUM.UserOptions.PURCHASE:
@@ -66,7 +68,10 @@ namespace VendingMachine.User
 
                             if (Purchase.PurchaseProduct(ProductID))
                             {
+                                string[] productInfo = Core.DBConnection.VendingMachineProductsDB.GetProductInfo(ProductID);
+                             // string[] productInfo = DatabaseConnection.GetProductInfo(ProductID);
                                 Console.WriteLine("{0} Purchase successful." , Machine.Machine.VendingMachineProducts[ProductID-1,0]);
+                                Console.WriteLine("{0} Purchase successful.", productInfo[0]);
                             }
                             else
                             {

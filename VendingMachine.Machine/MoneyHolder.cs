@@ -53,6 +53,8 @@ namespace VendingMachine.Machine
                         }
 
                         Machine.VendingMachineMoneyStock[i, 1] = Convert.ToString(tempDouble);
+                        Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
+                        //Core.DatabaseConnection.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
                         return true;
                     }
                     else
@@ -73,6 +75,8 @@ namespace VendingMachine.Machine
                     double tempDouble = Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
                     tempDouble++;
                     Machine.VendingMachineMoneyStock[i, 1] = Convert.ToString(tempDouble);
+                    Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
+                   // Core.DatabaseConnection.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
                     return true;
                 }
             }
@@ -111,6 +115,7 @@ namespace VendingMachine.Machine
             {
                 Machine.VendingMachineMoneyStock[i, 1] = Convert.ToString(Convert.ToInt32(inputArray[i, 1]) + Convert.ToInt32(Machine.VendingMachineMoneyStock[i, 1]));
             }
+            //Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(inputArray);
             return true;
         }
 

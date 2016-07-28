@@ -5,5 +5,6 @@
         UPLOAD_PRODUCTS = 1,
         UPLOAD_MONEY,
         REPORT_MODULE,
+        RESET,
     }
 }

@@ -14,6 +14,7 @@ namespace VendingMachine.Machine
             try
             {
                 readStock = new StreamReader(FileName);
+                // TODO: file path kontrol et
                 String line;
 
                 if (readStock == null)

@@ -21,7 +21,7 @@ namespace VendingMachine.User
             SetConsoleCtrlHandler(new ConsoleEventDelegate(ConsoleEventCallback), true);
 
             double currentProductPrice;
-            if (ProductID > Machine.Machine.rowSize)
+            if (ProductID > 10) //Machine.Machine.rowSize) TODO
             {
                 Console.WriteLine("There is no {0}. slot!", ProductID);
                 return false;
@@ -32,8 +32,10 @@ namespace VendingMachine.User
                 return false;
             }
 
-            var temp = Machine.Machine.VendingMachineProductPrice[ProductID - 1];
-            currentProductPrice = (Convert.ToDouble(temp));
+            //var temp = Machine.Machine.VendingMachineProductPrice[ProductID - 1];
+            string[] productInfo = Core.DBConnection.VendingMachineProductsDB.GetProductInfo(ProductID);
+//            string [] productInfo = DatabaseConnection.GetProductInfo(ProductID);
+            currentProductPrice = (Convert.ToDouble(productInfo[2]));
             Console.WriteLine("Please insert: {0} TL", currentProductPrice);
 
             List<double> inputMoneyList = new List<double>();

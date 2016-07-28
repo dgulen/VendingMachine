@@ -18,6 +18,8 @@ namespace VendingMachine.Machine
         {
             Machine.VendingMachineProducts[ProductID-1, 1] = Convert.ToString(Convert.ToInt32(Machine.VendingMachineProducts[ProductID-1, 1]) - 1) ;
             Machine.InitializeVendingMachineProductStock();
+            Core.DBConnection.VendingMachineProductsDB.UpdateProductDatabase(Machine.VendingMachineProducts);
+            //Core.DatabaseConnection.UpdateProductDatabase(Machine.VendingMachineProducts);
         }
 
         public static bool AddFromFileToVendingMachine(string inFile)

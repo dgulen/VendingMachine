@@ -1,4 +1,5 @@
 ﻿using System;
+using VendingMachine.Core;
 
 namespace VendingMachine.Admin
 {
@@ -39,6 +40,13 @@ namespace VendingMachine.Admin
                     case (int)Core.ENUM.AdminOptions.REPORT_MODULE:
                         Console.WriteLine("Connecting to the Report Module");
                         Machine.ReportModule.GetCurrentSituation();
+                        break;
+
+                    case (int)Core.ENUM.AdminOptions.RESET:
+                        Console.WriteLine("Resetting... Uploading initial data... ");
+                        Core.DBConnection.VendingMachineProductsDB.InitializeProductDatabase("testtest.txt");
+                        Core.DBConnection.VendingMachineMoneyDB.InitializeMoneyDatabase();
+                        //DatabaseConnection.InitializeDatabase("testtest.txt"); 
                         break;
                 }
             }

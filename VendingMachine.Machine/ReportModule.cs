@@ -18,16 +18,23 @@ namespace VendingMachine.Machine
         public static void CalculateCurrentCurrencies()
         {
             double subtotal = 0;
+            string []productInfo = new string[4];
             for (int i = 0; i < Machine.rowSize; i++)
             {
-                subtotal += Convert.ToDouble(Machine.VendingMachineProducts[i, 1]) * Convert.ToDouble(Machine.VendingMachineProducts[i, 2]);
+                productInfo = Core.DBConnection.VendingMachineProductsDB.GetProductInfo(i);
+               // productInfo = Core.DatabaseConnection.GetProductInfo(i + 1);
+                subtotal += Convert.ToDouble(productInfo[1]) * Convert.ToDouble(productInfo[2]);
+               // subtotal += Convert.ToDouble(Machine.VendingMachineProducts[i, 1]) * Convert.ToDouble(Machine.VendingMachineProducts[i, 2]);
             }
 
             Machine.ProductStockCurrency = subtotal;
-
+            string[] moneyInfo = new string[2];
             for (int i = 0; i < Machine.moneyTypeCount; i++)
             {
-                subtotal += Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 0]) * Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
+                moneyInfo = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(i);
+                //moneyInfo = Core.DatabaseConnection.GetMoneyInfo(i);
+                subtotal += Convert.ToDouble(moneyInfo[0]) * Convert.ToDouble(moneyInfo[1]); 
+                //subtotal += Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 0]) * Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
             }
 
             Machine.MoneyStockCurrency = subtotal - Machine.ProductStockCurrency;
@@ -37,8 +44,11 @@ namespace VendingMachine.Machine
 
         public static void GetCurrentSituation()
         {
-            ProductHolder.ListVendingMachineProducts();
-            MoneyHolder.ListVendingMachineMoneyStock();
+            Core.DBConnection.VendingMachineProductsDB.ListProductsFromDatabase();
+            Core.DBConnection.VendingMachineMoneyDB.ListMoneyFromDatabase();
+//            Core.DatabaseConnection.ListProductsFromDatabase();
+  //          Core.DatabaseConnection.ListMoneyFromDatabase();
+
             CalculateCurrentCurrencies();
             ShowReport();
         }

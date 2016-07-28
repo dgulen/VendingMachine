@@ -15,6 +15,7 @@ namespace VendingMachine.Admin
             Console.WriteLine("1) Update product stock");
             Console.WriteLine("2) Update money stock");
             Console.WriteLine("3) Report Module: View Current Situation of the Vending Machine");
+            Console.WriteLine("4) Reset Vending Machine");
         }
     }
 }
