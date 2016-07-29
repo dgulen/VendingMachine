@@ -12,7 +12,7 @@ namespace VendingMachine.Core.DBConnection
             VendingMachineProduct[] productArray = new VendingMachineProduct[40];
             productArray = ReadProductSourceFile(fileName);
 
-            if (!File.Exists("VendingMachineDB.sqlite")) // TODO : change to filename
+            if (!File.Exists("VendingMachineDB.sqlite")) 
             {
                 SQLiteConnection.CreateFile("VendingMachineDB.sqlite");
             }
@@ -175,7 +175,7 @@ namespace VendingMachine.Core.DBConnection
 
             if (!File.Exists("VendingMachineDB.sqlite"))
             {
-                InitializeProductDatabase("testtest.txt"); // TODO: MOVE TO DATABASE
+                InitializeProductDatabase("testtest.txt"); 
                 Console.WriteLine("Databases initialized. ");
             }
 

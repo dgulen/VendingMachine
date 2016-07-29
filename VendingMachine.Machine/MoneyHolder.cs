@@ -55,7 +55,6 @@ namespace VendingMachine.Machine
         {
             string[] money = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(inputMoney);
             double moneyCount = Convert.ToDouble(money[1]);
-            //moneyCount++;
             Core.DBConnection.VendingMachineMoneyDB.IncreaseMoneyAmountInDB(inputMoney, 1);
             Machine.InitializeVendingMachineMoneyStock();
             return true; 
