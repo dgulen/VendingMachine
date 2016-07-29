@@ -59,7 +59,7 @@ namespace VendingMachine.Machine
 
             InitializeVendingMachineProductPrice();
             InitializeVendingMachineProductStock();
-            InitializeVendingMachineMoneyStock(VendingMachineMoneyFile); // TODO : DEGISTIR
+            InitializeVendingMachineMoneyStock(); 
         }
 
         
@@ -110,7 +110,7 @@ namespace VendingMachine.Machine
             }
         }
 
-        public static void InitializeVendingMachineMoneyStock(string MoneyFile)
+        public static void InitializeVendingMachineMoneyStock()
         {
             VendingMachineMoneyStock = new string[6, 2]; // SAYILARI DEGISTIR
             moneyTypeCount = 6;

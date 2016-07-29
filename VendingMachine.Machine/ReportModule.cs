@@ -22,19 +22,17 @@ namespace VendingMachine.Machine
             for (int i = 0; i < Machine.rowSize; i++)
             {
                 productInfo = Core.DBConnection.VendingMachineProductsDB.GetProductInfo(i);
-               // productInfo = Core.DatabaseConnection.GetProductInfo(i + 1);
                 subtotal += Convert.ToDouble(productInfo[1]) * Convert.ToDouble(productInfo[2]);
-               // subtotal += Convert.ToDouble(Machine.VendingMachineProducts[i, 1]) * Convert.ToDouble(Machine.VendingMachineProducts[i, 2]);
             }
+
+            string[] moneyTypeArray = new string[6] { "0,25", "0,50", "1", "5", "10", "20" };
 
             Machine.ProductStockCurrency = subtotal;
             string[] moneyInfo = new string[2];
             for (int i = 0; i < Machine.moneyTypeCount; i++)
             {
-                moneyInfo = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(i);
-                //moneyInfo = Core.DatabaseConnection.GetMoneyInfo(i);
+                moneyInfo = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(Convert.ToDouble( moneyTypeArray[i]));
                 subtotal += Convert.ToDouble(moneyInfo[0]) * Convert.ToDouble(moneyInfo[1]); 
-                //subtotal += Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 0]) * Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
             }
 
             Machine.MoneyStockCurrency = subtotal - Machine.ProductStockCurrency;
@@ -46,8 +44,6 @@ namespace VendingMachine.Machine
         {
             Core.DBConnection.VendingMachineProductsDB.ListProductsFromDatabase();
             Core.DBConnection.VendingMachineMoneyDB.ListMoneyFromDatabase();
-//            Core.DatabaseConnection.ListProductsFromDatabase();
-  //          Core.DatabaseConnection.ListMoneyFromDatabase();
 
             CalculateCurrentCurrencies();
             ShowReport();

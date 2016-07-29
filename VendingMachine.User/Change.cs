@@ -25,11 +25,11 @@ namespace VendingMachine.User
                 }
                 else
                 {
-                    count = Convert.ToInt32(change / 0.5);
+                    count = Convert.ToInt32(Math.Floor(Convert.ToDecimal(change / 0.5)));
 
                     if (count < 1)
                     {
-                        count = Convert.ToInt32(change / 0.25);
+                        count = Convert.ToInt32(Math.Floor(Convert.ToDecimal(change / 0.25)));
                         changeAmount[2] = count;
                         change = change - (count * 0.25);
                     }

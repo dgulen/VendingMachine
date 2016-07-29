@@ -1,8 +1,6 @@
 ﻿using System;
 using VendingMachine.Machine;
 using VendingMachine.Core.ENUM;
-using VendingMachine.Core;
-using System.Data.SQLite;
 using System.IO;
 
 namespace VendingMachine
@@ -11,15 +9,14 @@ namespace VendingMachine
     {
         static void Main(string[] args)
         {
-            if (!File.Exists("VendingMachineDB.sqlite")) // TODO : change to filename
+            if (!File.Exists("VendingMachineDB.sqlite")) 
             {
                 Core.DBConnection.VendingMachineProductsDB.InitializeProductDatabase("testtest.txt");
                 Core.DBConnection.VendingMachineMoneyDB.InitializeMoneyDatabase();
-                //DatabaseConnection.InitializeDatabase("testtest.txt"); // TODO: MOVE TO DATABASE
                 Console.WriteLine("Databases initialized. ");
             }
 
-            Machine.Machine.InitializeVendingMachine(); // TODO remove this
+            Machine.Machine.InitializeVendingMachine(); 
 
             bool mainLoop = true;
             while (mainLoop)
@@ -51,7 +48,6 @@ namespace VendingMachine
                 {
                     Console.WriteLine("Invalid input.");
                 }
-
             }
         }
     }

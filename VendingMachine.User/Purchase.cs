@@ -32,9 +32,7 @@ namespace VendingMachine.User
                 return false;
             }
 
-            //var temp = Machine.Machine.VendingMachineProductPrice[ProductID - 1];
             string[] productInfo = Core.DBConnection.VendingMachineProductsDB.GetProductInfo(ProductID);
-//            string [] productInfo = DatabaseConnection.GetProductInfo(ProductID);
             currentProductPrice = (Convert.ToDouble(productInfo[2]));
             Console.WriteLine("Please insert: {0} TL", currentProductPrice);
 

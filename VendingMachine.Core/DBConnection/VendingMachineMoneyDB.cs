@@ -106,7 +106,7 @@ namespace VendingMachine.Core.DBConnection
             Console.WriteLine("Money database updated.");
         }
 
-        public static string[] GetMoneyInfo(int moneyType)
+        public static string[] GetMoneyInfo(double moneyType)
         {
             SQLiteConnection m_dbConnection;
             m_dbConnection = new SQLiteConnection("Data Source=VendingMachineDB.sqlite;Version=3;");
@@ -117,7 +117,13 @@ namespace VendingMachine.Core.DBConnection
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
 
-            command.CommandText = "select * from money where moneyType='" + Convert.ToString(moneyType) + "';";
+            string number = Convert.ToString(moneyType);
+            if (number == "0,5")
+            {
+                number = "0,50";
+            }
+
+            command.CommandText = "select * from money where moneyType='" + number + "';";
             command.CommandType = System.Data.CommandType.Text;
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -174,6 +180,45 @@ namespace VendingMachine.Core.DBConnection
 
             m_dbConnection.Close();
             return returnArray;
+        }
+
+        public static void IncreaseMoneyAmountInDB(double moneyType, double increaseCount)
+        {
+            SQLiteConnection m_dbConnection;
+            m_dbConnection = new SQLiteConnection("Data Source=VendingMachineDB.sqlite;Version=3;");
+            string[] moneyInfo = new string[2];
+            m_dbConnection.Open();
+
+            double oldCount=0;
+
+            string sql = " ";
+            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            command.ExecuteNonQuery();
+            string number = Convert.ToString(moneyType);
+            if(number == "0,5")
+            {
+                number = "0,50";
+            }
+            command.CommandText = "select count from money where moneyType='" + number + "';";
+            command.CommandType = System.Data.CommandType.Text;
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                oldCount = Convert.ToInt32(reader["count"]);
+            }
+            double newCount = oldCount + increaseCount;
+            string newCountString = Convert.ToString(newCount);
+
+            sql = "update money set count='" + newCountString + "' where moneyType='" + number + "';";
+            command = new SQLiteCommand(sql, m_dbConnection);
+            command.ExecuteNonQuery();
+
+            /*
+            command.CommandText = "update money set count='" + newCountString + "' where moneyType like '" + Convert.ToString(moneyType) + "%';";
+            command.CommandType = System.Data.CommandType.Text;
+            command.ExecuteNonQuery();
+            */
+            m_dbConnection.Close();
         }
     }
 }

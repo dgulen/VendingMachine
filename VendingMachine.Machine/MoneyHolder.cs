@@ -8,79 +8,57 @@ namespace VendingMachine.Machine
         public static bool DecreaseMoney(int[] changeAmount)
         {
             // 1 yeterli miktarda var mı 
-            for (int i = 0; i < Machine.moneyTypeCount; i++)
+    
+            string[] money1 = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(1);
+            double tempDouble = Convert.ToDouble(money1[1]);
+            tempDouble = tempDouble - changeAmount[0];
+            if (!(tempDouble < 0))
             {
-                if (Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 0]) == 1)
+                // 0.5 yeterli miktarda var mı
+
+                string[] money2 = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(0.5);
+                double tempDouble2 = Convert.ToDouble(money2[1]);
+                tempDouble2 = tempDouble2 - changeAmount[1];
+                if (!(tempDouble2 < 0))
                 {
-                    double tempDouble = Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
-                    tempDouble = tempDouble - changeAmount[0];
-                    if (!(tempDouble < 0))
+                    // 0.25 yeterli miktarda var mı 
+
+                    string[] money3 = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(0.25);
+                    double tempDouble3 = Convert.ToDouble(money3[1]);
+                    tempDouble3 = tempDouble3 - changeAmount[2];
+                    if (!(tempDouble3 < 0))
                     {
-                        // 0.5 yeterli miktarda var mı
-                        for (int j = 0; j < Machine.moneyTypeCount; j++)
-                        {
-                            if (Convert.ToDouble(Machine.VendingMachineMoneyStock[j, 0]) == 0.5)
-                            {
-                                double tempDouble2 = Convert.ToDouble(Machine.VendingMachineMoneyStock[j, 1]);
-                                tempDouble2 = tempDouble2 - changeAmount[1];
-                                if (!(tempDouble2 < 0))
-                                {
-                                    // 0.25 yeterli miktarda var mı 
-                                    for (int k = 0; k < Machine.moneyTypeCount; k++)
-                                    {
-                                        if (Convert.ToDouble(Machine.VendingMachineMoneyStock[k, 0]) == 0.25)
-                                        {
-                                            double tempDouble3 = Convert.ToDouble(Machine.VendingMachineMoneyStock[k, 1]);
-                                            tempDouble3 = tempDouble3 - changeAmount[2];
-                                            if (!(tempDouble3 < 0))
-                                            {
-                                                Machine.VendingMachineMoneyStock[k, 1] = Convert.ToString(tempDouble3);
-                                            }
-                                            else
-                                            {
-                                                return false;
-                                            }
-                                        }
-                                    }
-
-                                    Machine.VendingMachineMoneyStock[j, 1] = Convert.ToString(tempDouble2);
-                                }
-                                else
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-
-                        Machine.VendingMachineMoneyStock[i, 1] = Convert.ToString(tempDouble);
-                        Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
-                        //Core.DatabaseConnection.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
-                        return true;
+                        Core.DBConnection.VendingMachineMoneyDB.IncreaseMoneyAmountInDB(0.25, -changeAmount[2]);
                     }
                     else
                     {
                         return false;
                     }
+                    Core.DBConnection.VendingMachineMoneyDB.IncreaseMoneyAmountInDB(0.50, -changeAmount[1]);
                 }
-            }           
+                else
+                {
+                    return false;
+                }
+                Core.DBConnection.VendingMachineMoneyDB.IncreaseMoneyAmountInDB(1, -changeAmount[0]);
+            }
+            else
+            {
+                return false;
+            }
+
+            Machine.InitializeVendingMachineMoneyStock();
             return true;
         }
 
         public static bool IncreaseMoney(double inputMoney)
         {
-            for (int i = 0; i < Machine.moneyTypeCount; i++)
-            {
-                if (Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 0]) == inputMoney)
-                {
-                    double tempDouble = Convert.ToDouble(Machine.VendingMachineMoneyStock[i, 1]);
-                    tempDouble++;
-                    Machine.VendingMachineMoneyStock[i, 1] = Convert.ToString(tempDouble);
-                    Core.DBConnection.VendingMachineMoneyDB.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
-                   // Core.DatabaseConnection.UpdateMoneyDatabase(Machine.VendingMachineMoneyStock);
-                    return true;
-                }
-            }
-            return false;
+            string[] money = Core.DBConnection.VendingMachineMoneyDB.GetMoneyInfo(inputMoney);
+            double moneyCount = Convert.ToDouble(money[1]);
+            //moneyCount++;
+            Core.DBConnection.VendingMachineMoneyDB.IncreaseMoneyAmountInDB(inputMoney, 1);
+            Machine.InitializeVendingMachineMoneyStock();
+            return true; 
         }
 
         public static bool AddMoneyFromFileToVendingMachine(string inFile)
